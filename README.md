@@ -37,8 +37,6 @@ AIRFLOW_UID=50000
 ### 3. Usuario gc
 Crea un archivo llamado .env en la raiz del proyecto con el contenido del archivo adjunto:
 
-id: a534d13c-17e2-49d5-ad5e-1d4a4908b800
-
 ### 3. Profiles 
 Crea un archivo llamado profiles.yml en la raiz con el contenido del archivo adjunto:
 
