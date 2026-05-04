@@ -1,0 +1,30 @@
+name: 'ecommerce_project'
+version: '1.0'
+config-version: 2
+
+# Ruta al perfil del profiles.yml
+profile: 'ecommerce_project'
+
+# Configuración de rutas de carpetas
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configuración de modelos (Criterio 1.1 y 1.2 del challenge)
+models:
+  ecommerce_project:
+    # Por defecto, todo se crea como vista, pero lo cambiaremos en las carpetas
+    materialized: view
+    staging:
+      +schema: staging
+      +materialized: view # Capa de limpieza
+    marts:
+      +schema: marts
+      +materialized: table # Capa de negocio (Tablas finales)

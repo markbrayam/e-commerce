@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: mart_orders_summary
+    description: "Resumen de ventas a nivel de orden con ingresos calculados." # Punto 4.1
+    columns:
+      - name: order_id
+        description: "Clave primaria de la orden."
+        tests:
+          - unique # Punto 2.1
+          - not_null # Punto 2.1
+      - name: order_status
+        tests:
+          - accepted_values: # Punto 2.1
+              values: ['completed', 'pending', 'cancelled', 'shipped']
+
+  - name: mart_customer_ltv
+    description: "Métricas de valor de vida del cliente y segmentación de marketing." # Punto 4.1
+    columns:
+      - name: customer_id
+        description: "ID único del cliente." # Punto 4.1  
+        tests:
+          - unique
+          - not_null
+          - relationships: # Punto 2.1  
+              to: ref('stg_customers')
+              field: customer_id
+      - name: customer_name
+        description: "Nombre completo del cliente." # Punto 4.1  
+      - name: email
+        description: "Correo electrónico de contacto." # Punto 4.1  
+      - name: total_revenue
+        description: "Suma total histórica de ingresos por cliente." # Punto 4.1  
+      - name: customer_segment
+        description: "Categoría del cliente según su gasto y frecuencia." # Punto 4.1  

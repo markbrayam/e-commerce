@@ -1,0 +1,14 @@
+# Core
+dbt-core==1.7.4
+dbt-bigquery==1.7.2
+astronomer-cosmos==1.3.2
+
+# Airflow Providers
+apache-airflow-providers-google==10.13.1
+
+# Google SDKs (Fijados para compatibilidad)
+google-cloud-storage==2.14.0
+google-cloud-bigquery==3.15.0
+google-api-core==2.15.0
+protobuf==4.21.12
+httpcore==1.0.2

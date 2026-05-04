@@ -1,0 +1,24 @@
+services:
+  airflow-dbt:
+    build: .
+    container_name: biproject_orchestrator
+    env_file:
+      - .env
+    environment:
+      # Además de las del .env, puedes definir variables dinámicas aquí
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - AIRFLOW_VAR_DBT_PROJECT_DIR=/opt/airflow/dbt-project
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./dbt-project:/opt/airflow/dbt-project
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./profiles.yml:/opt/airflow/profiles.yml:ro
+      - ./gcp-creds.json:/opt/airflow/gcp-creds.json:ro
+    # Esto asegura que el contenedor tenga acceso a internet para BigQuery
+    network_mode: bridge
+    ports:
+      - "8080:8080"
+    command: standalone
+

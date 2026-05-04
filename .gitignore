@@ -1,0 +1,34 @@
+# --- Seguridad y Credenciales ---
+# NUNCA subas estos archivos al repo
+gcp-creds.json
+.env
+*.pem
+*.key
+
+# --- Airflow (Archivos locales/temporales) ---
+# Si usas Docker, estos archivos en tu raíz no son necesarios en Git
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+standalone_admin_password.txt
+webserver_config.py
+logs/
+**/__pycache__/
+
+# --- dbt (Archivos de compilación y logs) ---
+dbt-project/target/
+dbt-project/dbt_packages/
+dbt-project/logs/
+profiles.yml
+
+# --- Sistema y Editores ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.user.yml
+
+# --- Python ---
+*.pyc
+venv/
+env/

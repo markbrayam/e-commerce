@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: "Capa de datos crudos del e-commerce. Contiene inconsistencias intencionales." 
+    
+    # Mantenemos los umbrales de tiempo a nivel global
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+      - name: orders
+        description: "Tabla principal de pedidos."
+        # Solo aplicamos loaded_at_field a la tabla que realmente tiene la columna
+        loaded_at_field: cast(order_date as timestamp) 
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+
+      - name: customers
+        description: "Catálogo de clientes."
+        # Si no hay una columna de fecha confiable en customers, 
+        # desactivamos la frescura para evitar el error "Unrecognized name"
+        freshness: null 
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+
+      - name: products
+        description: "Catálogo maestro de productos."
+        freshness: null
+        columns:
+          - name: product_id
+            tests:
+              - not_null
+              - unique
+
+      - name: order_items
+        description: "Detalle de ítems por pedido."
+        # Esta tabla suele tener order_id pero no siempre la fecha del pedido.
+        # Si no la tiene, desactivamos frescura aquí también.
+        freshness: null
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'orders')
+                  field: order_id
